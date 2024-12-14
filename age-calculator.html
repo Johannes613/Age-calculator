@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age-calculator</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        body{
+            margin-left: 100px;
+            margin-top:60px;
+            height: 100vh;
+            background: linear-gradient(135deg,#039ea9,#90bafc);
+            color: white;
+        }
+        .main{
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            gap: 40px;
+            width: 60vw;
+            max-width: 550px;
+            padding: 80px 30px;
+        }
+        .main h1{
+            font-size: 57px;
+            line-height: 70px;            
+        }
+        .main h1 span{
+            display: block;
+            color: #ffff76;
+        }
+        .calculator{
+            background-color: antiquewhite;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0.3);
+
+        }
+        .calculator button{
+            display: block;
+            padding: 14px 22px;
+            background-color: #ffff76;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: rgb(90, 89, 89);
+            font-size: 17px;;
+        }
+        .calculator input{
+            padding: 13px 20px;
+            width: 70%;
+            border: none;
+            outline: none;
+            font-size: 17px;
+            border-radius: 5px;
+        }
+        p.result{
+            font-size: 20px;
+            padding:10px;
+        }
+        p.result span{
+            color: #ffff76;
+        }
+    </style>
+</head>
+    <body>
+        <div class="main">
+            <h1>JavaScript <span>Age Calculator</span></h1>
+
+            <div class="calculator">
+                <input type="date">
+                <button>calculate</button>
+            </div>
+            <p class = "result"></p>
+        </div>
+
+        <script>
+            const date = new Date();
+
+            let input = document.querySelector('input');
+            input.value =  date.toISOString().substring(0,10);
+            input.max = date.toISOString().substring(0,10);
+            let calculateBtn = document.querySelector('button');
+            calculateBtn.onclick = calculateAge;
+
+            console.log(input.value)
+            
+
+            let result = document.querySelector('p');
+
+            function calculateAge(){
+
+                let userBirthDate = new Date(input.value)
+                let userYear = userBirthDate.getFullYear();
+                let userMonth = userBirthDate.getMonth() + 1;
+                let userDay = userBirthDate.getDate();
+
+                let currentYear = date.getFullYear();
+                let currentMonth = date.getMonth() + 1;
+                let currentDay = date.getDate();
+
+                let ageYear = currentYear - userYear;
+                let ageMonth;
+                let ageDay;
+
+                if(currentMonth >= userMonth){
+                    ageMonth = currentMonth - userMonth;
+                }
+                else{
+                    ageMonth = currentMonth + 12 - userMonth
+                    ageYear--;
+                }
+
+                if(currentDay >= userDay){
+                    ageDay = currentDay - userDay;
+                }
+                else{
+                    ageDay = getNumberOfDays(userYear,userMonth) + currentDay - userDay;
+                    ageMonth--;
+                }
+                if(ageMonth < 0){
+                    ageMonth = 11;
+                    ageYear--;
+                }
+
+                result.innerHTML = `You are <span>${ageYear}</span> years, <span>${ageMonth}</span> months, and <span>${ageDay}</span> days old`
+            }
+            
+            function getNumberOfDays(year,month){
+                    return new Date(year,month,0).getDate();
+                }
+
+        </script>
+            
+    </body>
+</html>
